@@ -1,0 +1,535 @@
+/* ── Registration Flow Styles ───────────────────────────── */
+.lt-reg-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lt-bg);
+  padding: 24px;
+  font-family: var(--lt-font-body);
+}
+
+.lt-reg-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--lt-white);
+  border-radius: var(--lt-radius-lg);
+  box-shadow: var(--lt-shadow-md);
+  padding: 40px;
+  animation: lt-fadeIn 300ms ease-out;
+}
+
+@keyframes lt-fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Step Indicator Bar ─────────────────────────────────── */
+.lt-step-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  gap: 0;
+}
+
+.lt-step-item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.lt-step-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid var(--lt-border);
+  background: var(--lt-white);
+  color: var(--lt-text3);
+  transition: all 200ms;
+  flex-shrink: 0;
+}
+
+.lt-step-item.active .lt-step-circle {
+  border-color: var(--lt-primary);
+  background: var(--lt-primary);
+  color: var(--lt-white);
+}
+
+.lt-step-item.done .lt-step-circle {
+  border-color: var(--lt-success);
+  background: var(--lt-success);
+  color: var(--lt-white);
+}
+
+.lt-step-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--lt-text3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 6px;
+  margin-right: 6px;
+  white-space: nowrap;
+}
+
+.lt-step-item.active .lt-step-label { color: var(--lt-primary); }
+.lt-step-item.done .lt-step-label { color: var(--lt-success); }
+
+.lt-step-line {
+  width: 32px;
+  height: 2px;
+  background: var(--lt-border);
+  flex-shrink: 0;
+}
+
+.lt-step-line.done { background: var(--lt-success); }
+
+/* ── Step Content ───────────────────────────────────────── */
+.lt-reg-step {
+  animation: lt-fadeIn 300ms ease-out;
+}
+
+.lt-reg-title {
+  font-family: var(--lt-font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--lt-primary);
+  margin: 0 0 8px 0;
+}
+
+.lt-reg-subtitle {
+  font-size: 13px;
+  color: var(--lt-text2);
+  margin: 0 0 24px 0;
+}
+
+.lt-reg-error {
+  padding: 12px 16px;
+  background: #fde8e8;
+  border-left: 3px solid var(--lt-error);
+  border-radius: 4px;
+  color: var(--lt-error);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* ── Field Row (2-column) ──────────────────────────────── */
+.lt-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── Password Checks ────────────────────────────────────── */
+.lt-pw-checks {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lt-pw-checks span {
+  font-size: 11px;
+  color: var(--lt-text3);
+  line-height: 1.8;
+}
+
+.lt-pw-checks span.met {
+  color: var(--lt-success);
+}
+
+.lt-pw-strong {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lt-success);
+  margin-top: 4px;
+}
+
+/* ── Verification Code ──────────────────────────────────── */
+.lt-code-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 24px 0;
+}
+
+.lt-code-input {
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  font-family: 'SF Mono', 'JetBrains Mono', monospace;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--lt-text);
+  border: 2px solid var(--lt-border);
+  border-radius: var(--lt-radius);
+  background: var(--lt-white);
+  outline: none;
+  transition: all 120ms;
+}
+
+.lt-code-input:focus {
+  border-color: var(--lt-primary);
+  background: var(--lt-accent);
+  box-shadow: var(--lt-focus-ring);
+}
+
+.lt-code-input.lt-shake {
+  animation: lt-shake 200ms ease-in-out;
+}
+
+@keyframes lt-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.lt-code-info {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.lt-code-info p {
+  font-size: 13px;
+  color: var(--lt-text2);
+  margin: 0;
+}
+
+.lt-resend-btn {
+  background: none;
+  border: none;
+  color: var(--lt-primary);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 13px;
+  font-family: var(--lt-font-body);
+}
+
+.lt-resend-btn:disabled {
+  color: var(--lt-text3);
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.lt-code-exhausted {
+  color: var(--lt-error);
+}
+
+.lt-code-demo {
+  text-align: center;
+  font-size: 12px;
+  color: var(--lt-text2);
+  background: #f0f8f4;
+  padding: 8px;
+  border-radius: 4px;
+  margin: 12px 0;
+}
+
+/* ── Role Selection ─────────────────────────────────────── */
+.lt-role-select {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.lt-role-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--lt-border);
+  border-radius: var(--lt-radius);
+  cursor: pointer;
+  transition: all 120ms;
+}
+
+.lt-role-option:hover {
+  border-color: var(--lt-primary);
+  background: var(--lt-bg);
+}
+
+.lt-role-option.selected {
+  border: 2px solid var(--lt-primary);
+  background: #f0f8f4;
+  box-shadow: 0 0 0 3px rgba(6, 120, 87, 0.1);
+}
+
+.lt-role-option input[type="radio"] {
+  accent-color: var(--lt-primary);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.lt-role-option-content {
+  flex: 1;
+}
+
+.lt-role-option-text {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--lt-text);
+}
+
+.lt-role-option-desc {
+  display: block;
+  font-size: 12px;
+  color: var(--lt-text2);
+  margin-top: 2px;
+}
+
+.lt-role-option-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* ── Conditional Fields ─────────────────────────────────── */
+.lt-conditional-fields {
+  margin-bottom: 20px;
+  animation: lt-fadeIn 300ms ease-out;
+}
+
+/* ── Textarea ───────────────────────────────────────────── */
+.lt-textarea {
+  resize: vertical;
+  min-height: 80px;
+  padding: 12px 14px;
+}
+
+.lt-char-count {
+  display: block;
+  text-align: right;
+  font-size: 11px;
+  color: var(--lt-text3);
+  margin-top: 4px;
+}
+
+/* ── Terms ──────────────────────────────────────────────── */
+.lt-terms {
+  margin-top: 20px;
+}
+
+.lt-terms-note {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--lt-text3);
+  margin: 8px 0 0 0;
+}
+
+.lt-link {
+  color: var(--lt-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.lt-link:hover {
+  color: var(--lt-primary-dk);
+}
+
+/* ── Field Error ────────────────────────────────────────── */
+.lt-field-error {
+  display: block;
+  font-size: 12px;
+  color: var(--lt-error);
+  margin-top: 6px;
+}
+
+.lt-input.lt-error {
+  border-color: var(--lt-error);
+}
+
+/* ── Enrollment Cards ───────────────────────────────────── */
+.lt-enroll-card {
+  padding: 24px;
+  border-radius: var(--lt-radius);
+  border-left: 4px solid var(--lt-primary);
+  margin-bottom: 20px;
+}
+
+.lt-enroll-card.success { background: #f0f8f4; border-left-color: var(--lt-primary); }
+.lt-enroll-card.warning { background: #fff8e6; border-left-color: var(--lt-warning); }
+.lt-enroll-card.info { background: #fff8e6; border-left-color: var(--lt-warning); padding: 12px 16px; }
+
+.lt-enroll-title {
+  font-family: var(--lt-font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--lt-primary);
+  margin: 0 0 12px 0;
+}
+
+.lt-enroll-text {
+  font-size: 13px;
+  color: var(--lt-text);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.lt-enroll-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lt-enroll-list li {
+  font-size: 13px;
+  color: var(--lt-text);
+  padding: 4px 0;
+}
+
+.lt-enroll-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.lt-enroll-card-sm {
+  padding: 16px;
+  border: 1px solid var(--lt-border);
+  border-radius: var(--lt-radius);
+  text-align: center;
+  cursor: pointer;
+  transition: all 120ms;
+}
+
+.lt-enroll-card-sm:hover {
+  background: var(--lt-bg);
+  box-shadow: var(--lt-shadow-sm);
+}
+
+.lt-enroll-sm-icon { font-size: 24px; }
+
+.lt-enroll-card-sm h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--lt-text);
+  margin: 8px 0 4px;
+}
+
+.lt-enroll-card-sm p {
+  font-size: 11px;
+  color: var(--lt-text2);
+  margin: 0;
+}
+
+/* ── Timeline ───────────────────────────────────────────── */
+.lt-timeline {
+  margin: 20px 0;
+  padding-left: 20px;
+  border-left: 2px solid var(--lt-border);
+}
+
+.lt-timeline-item {
+  position: relative;
+  padding: 12px 0 12px 20px;
+}
+
+.lt-timeline-dot {
+  position: absolute;
+  left: -27px;
+  top: 16px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--lt-text3);
+  border: 2px solid var(--lt-white);
+}
+
+.lt-timeline-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--lt-text);
+}
+
+.lt-timeline-status {
+  font-size: 12px;
+  color: var(--lt-text3);
+}
+
+/* ── Buttons ────────────────────────────────────────────── */
+.lt-reg-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  gap: 16px;
+}
+
+.lt-reg-btn {
+  padding: 12px 28px;
+  border-radius: var(--lt-radius);
+  font-family: var(--lt-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 160ms;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lt-reg-btn.primary {
+  background: var(--lt-primary);
+  color: var(--lt-white);
+}
+
+.lt-reg-btn.primary:hover:not(:disabled) {
+  background: var(--lt-primary-dk);
+  box-shadow: 0 4px 12px rgba(6, 120, 87, 0.2);
+  transform: translateY(-1px);
+}
+
+.lt-reg-btn.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lt-reg-back {
+  background: none;
+  border: none;
+  color: var(--lt-primary);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--lt-font-body);
+  text-decoration: none;
+}
+
+.lt-reg-back:hover {
+  text-decoration: underline;
+}
+
+.lt-reg-back-link {
+  font-size: 13px;
+  color: var(--lt-primary);
+  text-decoration: none;
+}
+
+.lt-reg-back-link:hover {
+  text-decoration: underline;
+}
+
+.lt-enroll-actions {
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .lt-reg-card { padding: 24px; }
+  .lt-field-row { grid-template-columns: 1fr; }
+  .lt-enroll-grid { grid-template-columns: 1fr; }
+  .lt-step-label { display: none; }
+  .lt-step-line { width: 20px; }
+}

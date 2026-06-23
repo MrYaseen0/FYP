@@ -1,0 +1,309 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Healtheon — CaseDetail GOD MOD
+   Neural network pipeline, 3D tilt cards, holographic shimmer, waveform
+   visualization, ambient particles, completion rings, morphing gradients.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.cd-page { height: 100vh; display: flex; flex-direction: column; background: #f8fafc; position: relative; overflow: hidden; }
+.cd-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; gap: 16px; color: #64748b; font-size: 0.9rem; }
+
+/* ── Loader Ring ─────────────────────────────────────────────────────────── */
+.cd-loader-ring { position: relative; width: 48px; height: 48px; }
+.cd-loader-ring div { position: absolute; width: 100%; height: 100%; border: 3px solid transparent; border-top-color: #067857; border-radius: 50%; animation: cdSpin 1.2s cubic-bezier(0.5,0,0.5,1) infinite; }
+.cd-loader-ring div:nth-child(1) { animation-delay: -0.45s; }
+.cd-loader-ring div:nth-child(2) { animation-delay: -0.3s; border-top-color: #06b6d4; }
+.cd-loader-ring div:nth-child(3) { animation-delay: -0.15s; border-top-color: #3b82f6; }
+@keyframes cdSpin { to { transform: rotate(360deg); } }
+
+/* ── Ambient Particles ───────────────────────────────────────────────────── */
+.ambient-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.ambient-particle { position: absolute; border-radius: 50%; animation: ambientFloat linear infinite; }
+@keyframes ambientFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(20px, -30px) scale(1.2); }
+  50% { transform: translate(-10px, -60px) scale(0.8); }
+  75% { transform: translate(15px, -20px) scale(1.1); }
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.cd-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: rgba(255,255,255,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid #e5e7eb; flex-shrink: 0; z-index: 10; position: relative; }
+.cd-header-left { display: flex; align-items: center; gap: 12px; }
+.cd-back-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid #e5e7eb; background: #fff; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.25s cubic-bezier(0.4,0,0.2,1); }
+.cd-back-btn:hover { background: #f0fdf4; border-color: #067857; color: #067857; transform: translateX(-3px) scale(1.05); box-shadow: 0 4px 12px rgba(6,120,87,0.15); }
+.cd-case-title { font-weight: 700; font-size: 1rem; color: #0f172a; }
+.cd-case-meta { display: flex; gap: 12px; font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
+.cd-header-right { display: flex; align-items: center; gap: 10px; }
+.cd-status { padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; transition: all 0.3s; }
+.cd-status.done { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; }
+.cd-status.processing { background: #ecfeff; color: #0891b2; border: 1px solid #a5f3fc; animation: cdPulse 1.5s ease infinite; }
+.cd-status.failed { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+/* ── Download ────────────────────────────────────────────────────────────── */
+.cd-download-wrap { position: relative; }
+.cd-download-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid #e5e7eb; background: #fff; cursor: pointer; font-size: 0.78rem; font-weight: 600; color: #374151; transition: all 0.2s; }
+.cd-download-btn:hover { background: #f0fdf4; border-color: #067857; color: #067857; }
+.cd-download-menu { position: absolute; top: 100%; right: 0; margin-top: 4px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 8px; width: 260px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 100; animation: cdSlideDown 0.2s ease; }
+.cd-download-title { font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 8px; }
+.cd-download-subtitle { font-size: 0.65rem; font-weight: 600; color: #94a3b8; padding: 4px 8px; margin-top: 4px; }
+.cd-download-divider { height: 1px; background: #e5e7eb; margin: 4px 0; }
+.cd-download-menu button { display: block; width: 100%; text-align: left; padding: 8px; border: none; background: none; cursor: pointer; font-size: 0.8rem; color: #374151; border-radius: 6px; transition: background 0.15s; }
+.cd-download-menu button:hover { background: #f0fdf4; color: #067857; }
+.cd-download-check { display: flex; align-items: center; gap: 8px; padding: 6px 8px; font-size: 0.8rem; color: #374151; cursor: pointer; border-radius: 6px; }
+.cd-download-check:hover { background: #f8fafc; }
+.cd-download-check input { accent-color: #067857; }
+.cd-download-custom { margin-top: 4px; background: #067857 !important; color: #fff !important; text-align: center !important; }
+.cd-download-custom:hover { background: #059669 !important; }
+
+/* ── Rerun ───────────────────────────────────────────────────────────────── */
+.cd-rerun-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid #e5e7eb; background: #fff; cursor: pointer; font-size: 0.78rem; font-weight: 600; color: #374151; transition: all 0.2s; }
+.cd-rerun-btn:hover { background: #fef2f2; border-color: #ef4444; color: #ef4444; }
+
+/* ── Body ────────────────────────────────────────────────────────────────── */
+.cd-body { flex: 1; display: flex; overflow: hidden; position: relative; z-index: 1; }
+.cd-main { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.cd-sidebar { width: 320px; flex-shrink: 0; overflow-y: auto; padding: 20px; border-left: 1px solid #e5e7eb; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GOD-MOD PIPELINE
+   ═══════════════════════════════════════════════════════════════════════════ */
+.god-pipeline {
+  position: relative;
+  border-radius: 20px;
+  padding: 0;
+  margin-bottom: 24px;
+  overflow: hidden;
+  background: transparent;
+  animation: godFadeIn 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes godFadeIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header */
+.god-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; position: relative; z-index: 2; }
+.god-header-left { display: flex; align-items: center; gap: 10px; }
+.god-pulse-orb {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16,185,129,0.5);
+  animation: orbPulse 2s ease infinite;
+}
+@keyframes orbPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+}
+.god-title { font-size: 0.95rem; font-weight: 700; color: #111827; letter-spacing: -0.01em; }
+.god-live-badge {
+  padding: 3px 12px; border-radius: 999px;
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #ef4444, #f97316);
+  color: white;
+  animation: livePulse 1.5s ease infinite;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.3);
+}
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(239,68,68,0.3); transform: scale(1); }
+  50% { box-shadow: 0 2px 16px rgba(239,68,68,0.5); transform: scale(1.05); }
+}
+.god-done-badge {
+  padding: 3px 12px; border-radius: 999px;
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em;
+  background: #067857;
+  color: white;
+  box-shadow: 0 2px 8px rgba(6,120,87,0.2);
+}
+
+/* ── Progress Bar ────────────────────────────────────────────────────────── */
+.god-progress { padding: 0 24px 16px; position: relative; z-index: 2; }
+.god-progress-track {
+  position: relative; height: 4px; background: #e5e7eb; border-radius: 4px;
+}
+.god-progress-fill {
+  height: 100%; border-radius: 4px; position: relative; z-index: 2;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4, #10b981, #067857, #10b981);
+  background-size: 400% 100%;
+  animation: progressFlow 4s ease infinite;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.god-progress-glow {
+  position: absolute; top: -3px; left: 0; height: 10px; border-radius: 4px; z-index: 1;
+  background: linear-gradient(90deg, transparent, rgba(6,120,87,0.25), transparent);
+  filter: blur(6px);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes progressFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.god-progress-marker {
+  position: absolute; top: 50%; transform: translate(-50%, -50%); z-index: 3;
+}
+.god-progress-dot {
+  width: 10px; height: 10px; border-radius: 50%; border: 2px solid #d1d5db;
+  background: #f3f4f6; transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+.god-progress-marker.done .god-progress-dot {
+  background: var(--marker-color); border-color: var(--marker-color);
+  box-shadow: 0 0 8px var(--marker-color);
+}
+.god-progress-marker.active .god-progress-dot {
+  background: var(--marker-color); border-color: var(--marker-color);
+  box-shadow: 0 0 0 4px rgba(6,120,87,0.3);
+  animation: markerPulse 1.2s ease infinite;
+}
+@keyframes markerPulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(6,120,87,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(6,120,87,0); }
+}
+
+/* ── Neural Network Layout ───────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   ORBITAL PIPELINE — wrapper around RadialOrbitalTimeline component
+   ═══════════════════════════════════════════════════════════════════════════ */
+.god-orbital-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+  min-height: 500px;
+  overflow: visible;
+}
+.god-orbital-wrap .rot-container {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ── Waveform ────────────────────────────────────────────────────────────── */
+.waveform {
+  display: flex; align-items: center; gap: 2px; height: 20px;
+  position: relative; z-index: 2;
+}
+.waveform-bar {
+  width: 3px; border-radius: 2px;
+  animation: waveBar 1s ease-in-out infinite;
+  transform-origin: bottom;
+}
+@keyframes waveBar {
+  0%, 100% { height: 4px; opacity: 0.4; }
+  50% { height: 16px; opacity: 1; }
+}
+
+/* ── God Particle Field ──────────────────────────────────────────────────── */
+.god-particle-field {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; overflow: hidden; display: none;
+}
+.god-float-particle {
+  position: absolute; border-radius: 50%;
+  background: rgba(6,120,87,0.2);
+  animation: godFloat linear infinite;
+}
+@keyframes godFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(15px, -20px) scale(1.3); }
+  50% { transform: translate(-10px, -40px) scale(0.7); }
+  75% { transform: translate(20px, -15px) scale(1.1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRANSCRIPT MESSAGES
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cd-transcript { display: flex; flex-direction: column; gap: 0; margin-bottom: 20px; }
+.cd-empty { text-align: center; padding: 40px; color: #94a3b8; font-size: 0.9rem; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.cd-empty-icon { font-size: 2rem; opacity: 0.5; }
+.cd-message { display: flex; gap: 12px; padding: 4px 0 4px 20px; position: relative; animation: msgSlideIn 0.4s ease both; }
+@keyframes msgSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.cd-message-line { position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; opacity: 0.3; }
+.cd-message-dot { position: absolute; left: 0; top: 14px; width: 14px; height: 14px; border-radius: 50%; border: 3px solid #f8fafc; z-index: 1; transition: all 0.3s; }
+.cd-message.active .cd-message-dot { animation: dotPulse 1.2s ease infinite; }
+@keyframes dotPulse { 0%, 100% { box-shadow: 0 0 0 0 currentColor; } 50% { box-shadow: 0 0 0 6px transparent; } }
+.cd-message-card { flex: 1; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px 16px; transition: all 0.2s; }
+.cd-message-card:hover { border-color: #cbd5e1; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.cd-message.active .cd-message-card { border-color: var(--agent-color, #067857); box-shadow: 0 0 0 1px rgba(6,120,87,0.1), 0 4px 12px rgba(6,120,87,0.06); }
+.cd-message.thinking { opacity: 0.7; }
+.cd-message-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.cd-message-icon-wrap { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; font-size: 0.8rem; }
+.cd-message-name { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; }
+.cd-analyzing { margin-left: auto; padding: 2px 10px; background: linear-gradient(135deg, var(--pulse-color, #ef4444), #dc2626); color: #fff; border-radius: 999px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; animation: analyzingPulse 1.5s ease infinite; }
+@keyframes analyzingPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.97); } }
+.cd-message-body { font-size: 0.83rem; color: #374151; line-height: 1.7; }
+.cd-thinking-text { color: #94a3b8; font-style: italic; display: flex; align-items: center; gap: 6px; }
+.cd-message-content { max-height: 200px; overflow: hidden; position: relative; transition: max-height 0.4s ease; }
+.cd-message-content.expanded { max-height: none; }
+.cd-message-content table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.8rem; }
+.cd-message-content th, .cd-message-content td { padding: 6px 10px; border: 1px solid #e5e7eb; text-align: left; }
+.cd-message-content th { background: #f8fafc; font-weight: 600; color: #374151; }
+.cd-message-content strong { color: #0f172a; }
+.cd-message-content h1, .cd-message-content h2, .cd-message-content h3 { margin: 12px 0 6px; font-size: 0.95rem; color: #067857; }
+.cd-expand-btn { margin-top: 8px; padding: 4px 10px; background: none; border: 1px solid #e5e7eb; border-radius: 6px; cursor: pointer; font-size: 0.75rem; color: #067857; font-weight: 600; transition: all 0.2s; }
+.cd-expand-btn:hover { background: #f0fdf4; border-color: #067857; }
+
+/* ── Sections ────────────────────────────────────────────────────────────── */
+.cd-section { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+.cd-section-header { display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: #f8fafc; border-bottom: 1px solid #e5e7eb; font-weight: 700; font-size: 0.85rem; color: #0f172a; }
+.cd-section-dl { margin-left: auto; padding: 4px 8px; border: 1px solid #e5e7eb; background: #fff; border-radius: 6px; cursor: pointer; font-size: 0.75rem; transition: all 0.2s; }
+.cd-section-dl:hover { background: #f0fdf4; border-color: #067857; color: #067857; }
+.cd-investigations { display: flex; flex-direction: column; }
+.cd-inv-row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #f1f5f9; transition: background 0.15s; }
+.cd-inv-row:last-child { border-bottom: none; }
+.cd-inv-row:hover { background: #f8fafc; }
+.cd-inv-test { font-weight: 600; font-size: 0.83rem; color: #0f172a; flex: 0 0 200px; }
+.cd-inv-rationale { font-size: 0.8rem; color: #64748b; flex: 1; }
+.cd-inv-urgency { padding: 2px 10px; border-radius: 999px; font-size: 0.65rem; font-weight: 700; background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; flex-shrink: 0; }
+.cd-inv-urgency.stat { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+.cd-report-content { padding: 20px; font-size: 0.85rem; color: #374151; line-height: 1.8; max-height: 600px; overflow-y: auto; }
+.cd-report-content h1 { font-size: 1.4rem; color: #067857; border-bottom: 2px solid #067857; padding-bottom: 8px; margin-bottom: 16px; }
+.cd-report-content h2 { font-size: 1.1rem; color: #067857; margin: 20px 0 8px; }
+.cd-report-content h3 { font-size: 0.95rem; color: #0f172a; margin: 16px 0 6px; }
+.cd-report-content table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+.cd-report-content th, .cd-report-content td { padding: 8px 12px; border: 1px solid #e5e7eb; text-align: left; font-size: 0.82rem; }
+.cd-report-content th { background: #f8fafc; font-weight: 600; color: #374151; }
+.cd-report-content strong { color: #0f172a; }
+.cd-report-content ul, .cd-report-content ol { padding-left: 20px; }
+.cd-report-content li { margin: 4px 0; }
+.cd-report-stats { display: flex; gap: 20px; padding: 12px 20px; border-top: 1px solid #e5e7eb; font-size: 0.75rem; color: #94a3b8; }
+.cd-error-box { display: flex; gap: 12px; padding: 16px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; margin-bottom: 16px; color: #dc2626; }
+.cd-actions { display: flex; gap: 10px; margin-bottom: 24px; }
+.cd-approve-btn { padding: 10px 24px; background: linear-gradient(135deg, #067857, #06b6d4); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.3s ease; position: relative; overflow: hidden; }
+.cd-approve-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s ease; }
+.cd-approve-btn:hover::before { left: 100%; }
+.cd-approve-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(6,120,87,0.3); }
+.cd-approve-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+.cd-sidebar-card { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin-bottom: 12px; transition: all 0.2s; }
+.cd-sidebar-card:hover { border-color: #d1d5db; }
+.cd-sidebar-title { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 10px; }
+.cd-complaint { font-size: 0.9rem; font-weight: 600; color: #0f172a; line-height: 1.5; }
+.cd-symptoms { margin-top: 8px; font-size: 0.8rem; color: #64748b; line-height: 1.5; }
+.cd-ctx-item { margin-bottom: 10px; }
+.cd-ctx-label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #94a3b8; margin-bottom: 4px; }
+.cd-ctx-value { font-size: 0.8rem; color: #374151; }
+.cd-ctx-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.cd-tag { padding: 2px 8px; background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 0.72rem; color: #374151; transition: all 0.2s; }
+.cd-tag:hover { border-color: #067857; color: #067857; }
+.cd-allergy { color: #d97706; }
+.cd-agent-list { display: flex; flex-direction: column; gap: 2px; }
+.cd-agent-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; transition: all 0.2s; }
+.cd-agent-item.done { background: #f0fdf4; }
+.cd-agent-item.active { background: #ecfeff; }
+.cd-agent-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; transition: all 0.3s; }
+.cd-agent-name { font-size: 0.72rem; font-weight: 500; flex: 1; transition: color 0.3s; }
+.cd-agent-check { font-size: 0.7rem; font-weight: 700; animation: checkBounce 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+@keyframes cdPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes cdSlideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cd-body { flex-direction: column; }
+  .cd-sidebar { width: 100%; border-left: none; border-top: 1px solid #e5e7eb; }
+  .cd-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .cd-header-right { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+  .god-orbital-wrap { min-height: 360px; }
+  .god-orbital-wrap .rot-container { max-width: 340px; }
+}

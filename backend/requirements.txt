@@ -1,0 +1,29 @@
+# Healtheon Backend — Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# ── AutoGen (multi-agent orchestration) ────────────────────────────────────
+pyautogen==0.2.35
+
+# ── FastAPI web framework ──────────────────────────────────────────────────
+fastapi
+uvicorn
+
+# ── Data validation ────────────────────────────────────────────────────────
+pydantic>=2.7
+pydantic-settings>=2.2
+
+# ── Database ───────────────────────────────────────────────────────────────
+sqlalchemy>=2.0
+
+# ── OpenAI client (used by AutoGen for both OpenAI and Ollama) ──────────────
+openai
+
+# ── Authentication ─────────────────────────────────────────────────────────
+python-jose[cryptography]
+passlib[bcrypt]
+
+# ── Utility ────────────────────────────────────────────────────────────────
+python-dotenv>=1.0
+
+# ── Evaluation (optional) ─────────────────────────────────────────────────
+requests

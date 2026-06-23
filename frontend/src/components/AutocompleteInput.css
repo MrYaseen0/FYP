@@ -1,0 +1,79 @@
+.ac-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.ac-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ac-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 200;
+  padding: 4px;
+  animation: acFadeIn 0.15s ease;
+}
+
+.ac-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: #374151;
+  transition: all 0.1s ease;
+  user-select: none;
+}
+
+.ac-option:hover,
+.ac-active {
+  background: #f0fdf4;
+  color: #067857;
+}
+
+.ac-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #94a3b8;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.1s ease;
+}
+
+.ac-option:hover .ac-icon,
+.ac-active .ac-icon {
+  background: #067857;
+  color: #fff;
+}
+
+.ac-option strong {
+  color: #067857;
+  font-weight: 700;
+}
+
+.ac-dropdown::-webkit-scrollbar { width: 4px; }
+.ac-dropdown::-webkit-scrollbar-track { background: transparent; }
+.ac-dropdown::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+
+@keyframes acFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
